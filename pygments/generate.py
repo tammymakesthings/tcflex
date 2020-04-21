@@ -25,13 +25,10 @@ def export():
 
         path = os.path.join(PYGMENTS_PATH, '%s.css' % style)
         formatter = HtmlFormatter(**opts)
-        md_css = formatter.get_style_defs('.highlight')
-        rst_css = formatter.get_style_defs('.literal-block')
+        css_content = formatter.get_style_defs('.highlight')
 
-        with open(path, 'w+') as f:
-            f.write(md_css)
-            f.write('\n')
-            f.write(rst_css)
+        with open(path, 'w') as f:
+            f.write(css_content)
 
 
 if __name__ == '__main__':

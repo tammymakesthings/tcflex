@@ -1,29 +1,16 @@
 var gulp = require('gulp'),
     less = require('gulp-less'),
     rename = require('gulp-rename'),
-    cssnano = require('gulp-cssnano'),
-    uglify = require('gulp-uglify');
+    minify = require('gulp-cssnano');
 
 gulp.task('less', function () {
-    return gulp.src([
-            './static/stylesheet/dark-theme.less',
-            './static/stylesheet/style.less',
-        ])
+    return gulp.src('./static/stylesheet/style.less')
         .pipe(less())
-        .pipe(cssnano())
+        .pipe(minify())
         .pipe(rename({
             extname: '.min.css'
         }))
         .pipe(gulp.dest('./static/stylesheet'));
-});
-
-gulp.task('uglify', function () {
-    return gulp.src('./static/dark-theme/dark-theme.js')
-        .pipe(uglify())
-        .pipe(rename({
-            extname: '.min.js'
-        }))
-        .pipe(gulp.dest('./static/dark-theme'));
 });
 
 gulp.task('cp', function () {
@@ -33,7 +20,7 @@ gulp.task('cp', function () {
 
 gulp.task('pygments', function () {
     return gulp.src(['./static/pygments/*.css', '!./static/pygments/*min.css'])
-        .pipe(cssnano())
+        .pipe(minify())
         .pipe(rename({
             extname: '.min.css'
         }))
@@ -41,4 +28,4 @@ gulp.task('pygments', function () {
 });
 
 
-gulp.task('default', gulp.series(['less', 'uglify', 'cp', 'pygments']));
+gulp.task('default', ['less', 'cp', 'pygments']);
